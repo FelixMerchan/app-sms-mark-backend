@@ -2,7 +2,7 @@ const {getConnection} = require ('../database/connection');
 
 
 const getAllPermiso = async() => {
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const query = await pool.query('SELECT * FROM permiso');
         return query.rows;
@@ -15,7 +15,7 @@ const getAllPermiso = async() => {
 }
 
 const getPermisoById = async(id) => {
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = 'SELECT * FROM permiso WHERE id_permiso = $1';
         const fieldValues = [id];
@@ -30,7 +30,7 @@ const getPermisoById = async(id) => {
 }
 
 const insertPermiso = async (data) => {
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = `INSERT TO permiso (rol, ver, crear, modificar, eliminar) 
                                                 VALUES ($1, $2, $3, $4, $5)`;
@@ -52,7 +52,7 @@ const insertPermiso = async (data) => {
 }
 
 const updatePermiso = async(id, data) =>{
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = `UPDATE permiso set rol=$1, ver=$2, crear=$3, modificar=$4, eliminar=$5 WHERE id_permiso = $6 ` ;
         const fieldValues = [
@@ -74,7 +74,7 @@ const updatePermiso = async(id, data) =>{
 }
 
 const deletePermiso= async(id) =>{
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = 'DELETE FROM permiso WHERE id_permiso = $1 ' ;
         const fieldValues = [

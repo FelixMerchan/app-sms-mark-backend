@@ -1,8 +1,18 @@
 const {getConnection} = require ('../database/connection');
 
+/* const handleError = (error) => {
+    throw error;
+}
+
+const releaseConnection = () => {
+    pool.end();
+    pool.release();
+} */
+
 const getAllUsers = async() => {
-    const pool = await getConnection();
+    let pool;
     try {
+        pool = await getConnection();
         const query = await pool.query('SELECT * FROM usuario');
         return query.rows;
     } catch (error) {
@@ -14,8 +24,9 @@ const getAllUsers = async() => {
 }
 
 const getUserById = async(id) => {
-    const pool = await getConnection();
+    let pool;
     try {
+        pool = await getConnection();
         const queryString = 'SELECT * FROM usuario WHERE id_usuario = $1';
         const fieldValues = [id];
         const query = await pool.query(queryString, fieldValues);
@@ -29,8 +40,9 @@ const getUserById = async(id) => {
 }
 
 const insertUsuario = async(data) =>{
-    const pool = await getConnection();
+    let pool;
     try {
+        pool  = await getConnection();
         const queryString = `INSERT INTO usuario (apellidos, nombres, correo, foto ,username, password, 
                                                     rol, status, fecha_creacion, creado_por) 
                                                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8,  $9, $10 )`;
@@ -58,8 +70,9 @@ const insertUsuario = async(data) =>{
 }
 
 const updateUsuario = async(id, data) =>{
-    const pool = await getConnection();
+    let pool;
     try {
+        pool = await getConnection();
         const queryString = `UPDATE usuario set apellidos = $1, nombres = $2, correo = $3, foto = $4, username = $5, 
                                                 password = $6, rol = $7, status = $8, fecha_modificacion = $9, modificado_por = $10 WHERE id_usuario = $11 ` ;
         const fieldValues = [
@@ -86,8 +99,9 @@ const updateUsuario = async(id, data) =>{
 }
 
 const deleteUsuario = async(id) =>{
-    const pool = await getConnection();
+    let pool;
     try {
+        pool = await getConnection();
         const queryString = 'DELETE FROM usuario WHERE id_usuario = $1 ' ;
         const fieldValues = [
             id

@@ -1,7 +1,7 @@
 const {getConnection} = require ('../database/connection');
 
 const getAllClientes = async() => {
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const query = await pool.query('SELECT * FROM cliente');
         return query.rows;
@@ -14,7 +14,7 @@ const getAllClientes = async() => {
 }
 
 const getClienteById = async(id) => {
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = 'SELECT * FROM cliente WHERE id_cliente = $1';
         const fieldValues = [id];
@@ -29,7 +29,7 @@ const getClienteById = async(id) => {
 }
 
 const insertCliente = async(data) =>{
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = `INSERT INTO cliente (cedula, apellidos, nombres, celular, direccion, correo, ciudad, 
                                                     status, fecha_creacion, creado_por) 
@@ -58,7 +58,7 @@ const insertCliente = async(data) =>{
 }
 
 const updateCliente = async(id, data) =>{
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = `UPDATE cliente set cedula=$1, apellidos=$2, nombres=$3, celular=$4, 
                                                 direccion=$5, correo=$6, ciudad=$7, 
@@ -87,7 +87,7 @@ const updateCliente = async(id, data) =>{
 }
 
 const deleteCliente = async(id) =>{
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = 'DELETE FROM cliente WHERE id_cliente = $1 ' ;
         const fieldValues = [

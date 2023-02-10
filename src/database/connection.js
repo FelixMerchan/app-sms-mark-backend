@@ -14,7 +14,7 @@ const dbSettings = {
 //METODO PARA CONEXIÓN
 const getConnection = async() => {
     try {
-        const pool = await new Pool(dbSettings).connect();
+        let pool = await new Pool(dbSettings).connect();
         console.info("conectado con exito a la bd");
         return pool;
     } catch (error) {

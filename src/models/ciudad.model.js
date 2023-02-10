@@ -1,7 +1,7 @@
 const {getConnection} = require ('../database/connection');
 
 const getAllCiudades = async() => {
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const query = await pool.query('SELECT * FROM ciudad');
         return query.rows;
@@ -14,7 +14,7 @@ const getAllCiudades = async() => {
 }
 
 const getCiudadById = async(id) => {
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = 'SELECT * FROM ciudad WHERE id_ciudad = $1';
         const fieldValues = [id];
@@ -29,7 +29,7 @@ const getCiudadById = async(id) => {
 }
 
 const insertCiudad = async(data) =>{
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = `INSERT INTO ciudad (nomCiudad, status, fecha_creacion, creado_por) 
                                                     VALUES ($1, $2, $3, $4 )`;
@@ -51,7 +51,7 @@ const insertCiudad = async(data) =>{
 }
 
 const updateCiudad = async(id, data) =>{
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = `UPDATE ciudad set nomCiudad=$1,status=$2, fecha_modificacion=$3, modificado_por=$4 WHERE id_ciudad = $5` ;
         const fieldValues = [
@@ -72,7 +72,7 @@ const updateCiudad = async(id, data) =>{
 }
 
 const deleteCiudad = async(id) =>{
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = 'DELETE FROM ciudad WHERE id_ciudad = $1 ' ;
         const fieldValues = [

@@ -1,7 +1,7 @@
 const {getConnection} = require ('../database/connection');
 
 const getAllRoles = async() => {
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const query = await pool.query('SELECT * FROM rol');
         return query.rows;
@@ -14,7 +14,7 @@ const getAllRoles = async() => {
 }
 
 const getRolById = async(id) => {
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = 'SELECT * FROM rol WHERE id_rol = $1';
         const fieldValues = [id];
@@ -29,7 +29,7 @@ const getRolById = async(id) => {
 }
 
 const insertRol = async(data) =>{
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = `INSERT INTO rol (nombre, descripcion, status, fecha_creacion, creado_por) VALUES ($1, $2, $3, $4, $5 )`;
         const fieldValues = [
@@ -51,7 +51,7 @@ const insertRol = async(data) =>{
 }
 
 const updateRol = async(id, data) =>{
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = `UPDATE rol set nombre=$1, descripcion=$2, status=$3, fecha_modificacion=$4, modificado_por=$5 WHERE id_rol = $6` ;
         const fieldValues = [
@@ -73,7 +73,7 @@ const updateRol = async(id, data) =>{
 }
 
 const deleteRol = async(id) =>{
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = 'DELETE FROM rol WHERE id_rol = $1 ' ;
         const fieldValues = [

@@ -35,7 +35,7 @@ const getMensaje =async(req, res) => {
 
 const createMensaje = async(req, res) => {
     const uid = req.uid;
-    const { texto, ...campos } = req.body;
+    const { texto, status, ...campos } = req.body;
     try {
         const data = await getAllMensajes();
         const existeTexto = data.filter(element => element.texto === texto)[0];
@@ -46,6 +46,7 @@ const createMensaje = async(req, res) => {
             });
         }
 
+        campos.status = status == true ? 1 : 0;
         campos.texto = texto;
         
         campos.creado_por = uid;
@@ -85,7 +86,7 @@ const editMensaje = async(req, res) =>{
                 message: 'No existe un Mensaje con ese id'
             });
         }
-        const {texto, ...campos } = req.body;
+        const {texto, status, ...campos } = req.body;
 
         if(existeMensaje.texto !== texto){
             const existeTexto = data.filter( element => element.texto === texto)[0];
@@ -97,6 +98,7 @@ const editMensaje = async(req, res) =>{
             }
         }
 
+        campos.status = status == true ? 1 : 0;
         campos.texto = texto;
         campos.modificacdor = uid;
         campos.fecha_modificacion = getFechaHora();

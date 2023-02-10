@@ -1,7 +1,7 @@
 const {getConnection} = require ('../database/connection');
 
 const getAllCategorias = async() => {
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const query = await pool.query('SELECT * FROM categoria');
         return query.rows;
@@ -14,7 +14,7 @@ const getAllCategorias = async() => {
 }
 
 const getCategoriaById = async(id) => {
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = 'SELECT * FROM categoria WHERE id_categoria = $1';
         const fieldValues = [id];
@@ -29,7 +29,7 @@ const getCategoriaById = async(id) => {
 }
 
 const insertCategoria = async(data) =>{
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = `INSERT INTO categoria (nombre, descripcion, status, fecha_creacion, creado_por) 
                                                     VALUES ($1, $2, $3, $4, $5, )`;
@@ -52,7 +52,7 @@ const insertCategoria = async(data) =>{
 }
 
 const updateCategoria = async(id, data) =>{
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = `UPDATE categoria set nombre=$1, descripcion=$2, 
                                                 status=$3, fecha_modificacion=$4, modificado_por=$5 WHERE id_categoria = $6` ;
@@ -75,7 +75,7 @@ const updateCategoria = async(id, data) =>{
 }
 
 const deleteCategoria = async(id) =>{
-    const pool = await getConnection();
+    let pool = await getConnection();
     try {
         const queryString = 'DELETE FROM categoria WHERE id_categoria = $1' ;
         const fieldValues = [
