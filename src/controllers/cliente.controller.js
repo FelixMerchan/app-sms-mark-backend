@@ -34,7 +34,9 @@ const getCliente =async(req, res) => {
 }
 
 const createCliente = async(req, res) => {
-    const {uid, status, cedula, ...campos } = req.body;
+    const uid = req.uid;
+
+    const { status, cedula, ...campos } = req.body;
     try {
         const data = await getAllClientes();
         const existeCedula = data.filter(element => element.cedula === cedula)[0];

@@ -4,7 +4,7 @@ const {getConnection} = require ('../database/connection');
 const getAllPermiso = async() => {
     let pool = await getConnection();
     try {
-        const query = await pool.query('SELECT * FROM permiso');
+        const query = await pool.query('SELECT * FROM vw_permiso_rol');
         return query.rows;
     } catch (error) {
         throw error;
@@ -29,17 +29,34 @@ const getPermisoById = async(id) => {
     }
 }
 
+const getPermisoByRolModulo = async(rol, modulo) => {
+    let pool = await getConnection();
+    try {
+        const queryString = 'SELECT * FROM permiso WHERE rol = $1 AND modulo = $2';
+        const fieldValues = [rol, modulo];
+        const query = await pool.query(queryString, fieldValues);
+        return query.rows[0];
+    } catch (error) {
+        throw error;
+    } finally {
+        pool.end() ;
+        pool.release();
+    }
+}
+
 const insertPermiso = async (data) => {
     let pool = await getConnection();
     try {
-        const queryString = `INSERT TO permiso (rol, ver, crear, modificar, eliminar) 
-                                                VALUES ($1, $2, $3, $4, $5)`;
+        const queryString = `INSERT INTO permiso (rol, ver, crear, modificar, eliminar, enviar, modulo) 
+                                                VALUES ($1, $2, $3, $4, $5, $6, $7)`;
        const fieldValues = [
             data.rol, 
             data.ver,
             data.crear,
             data.modificar,
-            data.eliminar
+            data.eliminar,
+            data.enviar,
+            data.modulo
        ];      
        const query = await pool.query(queryString, fieldValues);
        return query.rows;                                   
@@ -54,13 +71,17 @@ const insertPermiso = async (data) => {
 const updatePermiso = async(id, data) =>{
     let pool = await getConnection();
     try {
-        const queryString = `UPDATE permiso set rol=$1, ver=$2, crear=$3, modificar=$4, eliminar=$5 WHERE id_permiso = $6 ` ;
+        console.log( data );
+
+        const queryString = `UPDATE permiso SET rol=$1, ver=$2, crear=$3, modificar=$4, eliminar=$5, enviar=$6, modulo=$7 WHERE id_permiso = $8 ` ;
         const fieldValues = [
             data.rol, 
             data.ver,
             data.crear,
             data.modificar,
             data.eliminar,
+            data.enviar,
+            data.modulo,
             id
         ];
         const query = await pool.query(queryString, fieldValues);
@@ -93,8 +114,9 @@ const deletePermiso= async(id) =>{
 module.exports ={
     getAllPermiso,
     getPermisoById,
+    getPermisoByRolModulo,
     insertPermiso,
     updatePermiso,
-    deletePermiso
+    deletePermiso,
 }
 

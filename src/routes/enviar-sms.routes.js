@@ -3,12 +3,17 @@
  */
 
 const { Router } = require('express');
-const { getMensajesEnviados, sendMensaje } = require('../controllers/enviar-sms.controller');
+const { validarJWT } = require('../middlewares/validate-jwt');
+const { getMensajesEnviados, sendMensaje, getMensajesClientes, getMensajeCliente, createMensajeCliente, editMensajeCliente, removeMensajeCliente } = require('../controllers/enviar-sms.controller');
 
 const router = Router();
 
-router.get('/', getMensajesEnviados);
-
-router.post('/send', sendMensaje);
+router.get('/', getMensajesClientes);
+router.get('/:id', getMensajeCliente);
+router.post('/add',validarJWT, createMensajeCliente);
+router.put('/edit/:id', validarJWT, editMensajeCliente);
+router.delete('/del/:id', validarJWT, removeMensajeCliente);
+router.get('/enviados', validarJWT, getMensajesEnviados);
+router.post('/send', validarJWT, sendMensaje);
 
 module.exports = router;

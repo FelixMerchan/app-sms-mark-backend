@@ -6,7 +6,7 @@ const generarJWT = ( uid ) => {
             uid
         };
 
-        console.log( process.env.JWT_SECRET_KEY );
+        //console.log( process.env.JWT_SECRET_KEY );
         
         jwt.sign( payload, process.env.JWT_SECRET_KEY, {
             expiresIn: '12h'

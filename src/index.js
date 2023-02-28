@@ -38,6 +38,8 @@ app.use('/api/ciudades', require('./routes/ciudades.routes'));
 app.use('/api/categorias', require('./routes/categorias.routes'));
 app.use('/api/mensajes', require('./routes/mensajes.routes'));
 app.use('/api/enviar-sms', require('./routes/enviar-sms.routes'));
+app.use('/api/roles', require('./routes/roles.routes'));
+app.use('/api/dashboard', require('./routes/dashboard.routes'));
 
 // app en escucha
 app.listen(port, host, () => {

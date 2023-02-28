@@ -36,8 +36,8 @@ const insertCliente = async(data) =>{
                                                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8,  $9, $10 )`;
         const fieldValues = [
             data.cedula,
-            data.apellidos, 
-            data.nombres,
+            data.apellidos.toUpperCase(), 
+            data.nombres.toUpperCase(),
             data.celular,
             data.direccion,
             data.correo,
@@ -65,8 +65,8 @@ const updateCliente = async(id, data) =>{
                                                 status=$8, fecha_modificacion=$9, modificado_por=$10 WHERE id_cliente = $11` ;
         const fieldValues = [
             data.cedula,
-            data.apellidos, 
-            data.nombres,
+            data.apellidos.toUpperCase(), 
+            data.nombres.toUpperCase(),
             data.celular,
             data.direccion,
             data.correo,

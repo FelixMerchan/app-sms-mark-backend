@@ -13,7 +13,7 @@ const getAllUsers = async() => {
     let pool;
     try {
         pool = await getConnection();
-        const query = await pool.query('SELECT * FROM usuario');
+        const query = await pool.query('SELECT * FROM vw_usuario_rol');
         return query.rows;
     } catch (error) {
         throw error;
@@ -27,7 +27,7 @@ const getUserById = async(id) => {
     let pool;
     try {
         pool = await getConnection();
-        const queryString = 'SELECT * FROM usuario WHERE id_usuario = $1';
+        const queryString = 'SELECT * FROM vw_usuario_rol WHERE id_usuario = $1';
         const fieldValues = [id];
         const query = await pool.query(queryString, fieldValues);
         return query.rows[0];

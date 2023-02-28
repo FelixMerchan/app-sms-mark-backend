@@ -34,8 +34,8 @@ const getRol =async(req, res) => {
 }
 
 const createRol = async(req, res) => {
-    const uid = req.uid;
-    const { nombre, ...campos } = req.body;
+    //const uid = req.uid;
+    const {uid, status, nombre, ...campos } = req.body;
     try {
         const data = await getAllRoles();
         const existeNombre = data.filter(element => element.nombre === nombre)[0];
@@ -50,6 +50,7 @@ const createRol = async(req, res) => {
         
         campos.creado_por = uid;
         campos.fecha_creacion = getFechaHora();
+        campos.status = status == true ? 1 : 0;
 
         const rol = await insertRol( campos );
 
@@ -73,7 +74,7 @@ const createRol = async(req, res) => {
 const editRol = async(req, res) =>{
     const uid = req.uid;
     const id = req.params.id;
-
+        console.log( req.body );
     try {
         const data = await getAllRoles();
 
@@ -85,7 +86,7 @@ const editRol = async(req, res) =>{
                 message: 'No existe un Rol con ese id'
             });
         }
-        const {nombre, ...campos } = req.body;
+        const { status, nombre, ...campos } = req.body;
 
         if(existeRol.nombre !== nombre){
             const existeNombre = data.filter( element => element.nombre === nombre)[0];
@@ -97,8 +98,9 @@ const editRol = async(req, res) =>{
             }
         }
 
+        campos.status = status == true ? 1 : 0;
         campos.nombre = nombre;
-        campos.modificacdor = uid;
+        campos.modificado_por = uid;
         campos.fecha_modificacion = getFechaHora();
         const rol = await updateRol(id, campos);
         

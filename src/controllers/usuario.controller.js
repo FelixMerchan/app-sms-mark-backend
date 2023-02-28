@@ -1,4 +1,4 @@
-const bcryt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 
 const { getFechaHora } = require('../helpers/helpers');
 const { generarJWT } = require('../helpers/jwt');
@@ -36,7 +36,7 @@ const getUsuario = async (req, res) => {
 
 const createUsuario = async (req, res) => {
     const uid = req.uid;
-    const { username, password, ...campos } = req.body;
+    const { status, username, password, ...campos } = req.body;
     try {
         const data = await getAllUsers();
         const existeUserName = data.filter(element => element.username === username)[0];
@@ -50,11 +50,12 @@ const createUsuario = async (req, res) => {
         campos.username = username;
 
         // Encriptar contraseña
-        let salt = bcryt.genSaltSync();
-        campos.password = bcryt.hashSync(password, salt);
+        let salt = bcrypt.genSaltSync();
+        campos.password = bcrypt.hashSync(password, salt);
 
         campos.fecha_creacion = getFechaHora();
         campos.creado_por = uid;
+        campos.status = status == true ? 1 : 0;
 
         const usuario = await insertUsuario(campos);
 
@@ -93,7 +94,7 @@ const editUsuario = async (req, res) => {
                 message: 'No existe un usuario con ese id'
             });
         }
-        const { username, password, ...campos } = req.body;
+        const { status, username, password, ...campos } = req.body;
 
         if (existeUsuario.username !== username) {
             const existeUserName = data.filter(element => element.username === username)[0];
@@ -106,17 +107,21 @@ const editUsuario = async (req, res) => {
         }
 
         // Verificar contraseña
-        const validPassword = bcrypt.compareSync(password, existeUsuario.password);
-        if (!validPassword) {
-            let salt = bcryt.genSaltSync();
-            campos.password = bcryt.hashSync( password, salt );
+        
+        //const validPassword = bcrypt.compareSync(password, existeUsuario.password);
+        if (password !== existeUsuario.password) {
+            let salt = bcrypt.genSaltSync();
+            campos.password = bcrypt.hashSync( password, salt );
+            //console.log( 'Nuevo Pass => ' , password, campos.password );
         } else {
             campos.password = password;
+            //console.log( 'Existe Pass => ' , password );
         }
 
         campos.username = username;
         campos.modificado_por = uid;
         campos.fecha_modificacion = getFechaHora();
+        campos.status = status == true ? 1 : 0;
 
         const usuario = await updateUsuario(id, campos);
 
